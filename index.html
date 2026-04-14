@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>デジタル時計</title>
-<link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,7 +24,7 @@
   html, body {
     height: 100%;
     background: var(--bg);
-    font-family: 'BIZ UDGothic', 'BIZ UDPGothic', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     overflow: hidden;
     touch-action: manipulation;
   }
@@ -87,7 +87,7 @@
   .date-display {
     font-size: 22px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     color: var(--color-date);
     text-shadow: 0 0 10px var(--glow-main);
   }
@@ -107,55 +107,50 @@
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 4px;
-    padding: 20px 16px;
+    padding: 20px 10px;
     display: flex;
     align-items: baseline;
     justify-content: center;
   }
 
   .time-main {
-    font-size: clamp(60px, 17vw, 76px);
-    font-weight: 700;
+    font-size: clamp(52px, 14vw, 68px);
+    font-weight: 800;
     line-height: 1;
-    letter-spacing: 2px;
+    letter-spacing: 0px;
     color: var(--color-main);
     text-shadow: 0 0 20px var(--glow-main), 0 0 60px rgba(0,229,255,0.2);
     flex-shrink: 0;
   }
 
   .colon {
-    animation: blink 1s step-start infinite;
+    /* 点滅なし */
   }
 
-  @keyframes blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0.15; }
-  }
-
-  /* 秒（右側） */
+  /* 秒（コロン区切り） */
   .sec-block {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 10px;
+    flex-direction: row;
+    align-items: baseline;
     flex-shrink: 0;
   }
 
-  .sec-label {
-    font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 3px;
-    color: var(--text-sub);
-    margin-bottom: 2px;
+  .sec-colon {
+    font-size: clamp(52px, 14vw, 68px);
+    font-weight: 800;
+    color: var(--color-main);
+    text-shadow: 0 0 20px var(--glow-main), 0 0 60px rgba(0,229,255,0.2);
+    line-height: 1;
+    padding: 0 2px;
   }
 
   .sec-value {
-    font-size: clamp(48px, 13vw, 58px);
-    font-weight: 700;
+    font-size: clamp(48px, 13vw, 60px);
+    font-weight: 900;
     line-height: 1;
     color: var(--color-sec);
     text-shadow: 0 0 12px var(--glow-sec);
-    letter-spacing: 1px;
+    letter-spacing: 0px;
   }
 
   /* ---- 色設定パネル ---- */
@@ -226,7 +221,7 @@
       <span id="hh">--</span><span class="colon">:</span><span id="mm">--</span>
     </div>
     <div class="sec-block">
-      <div class="sec-label">SEC</div>
+      <div class="sec-colon">:</div>
       <div class="sec-value" id="ssDisplay">00</div>
     </div>
   </div>
@@ -321,3 +316,4 @@ document.addEventListener('mouseup',    cancelHold);
 </script>
 </body>
 </html>
+
