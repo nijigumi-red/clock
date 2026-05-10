@@ -11,12 +11,20 @@
   :root {
     --bg: #050a0f;
     --panel: #0a1520;
-    --cm: #00e5ff;
-    --cs: #ffb300;
-    --gm: rgba(0,229,255,0.45);
-    --gs: rgba(255,179,0,0.55);
     --bd: rgba(0,229,255,0.2);
     --sub: rgba(0,229,255,0.5);
+
+    /* アナログ用 */
+    --a-main: #00e5ff;
+    --a-sec:  #ffb300;
+    --a-gm:   rgba(0,229,255,0.45);
+    --a-gs:   rgba(255,179,0,0.55);
+
+    /* デジタル用 */
+    --d-main: #00e5ff;
+    --d-sec:  #ffb300;
+    --d-gm:   rgba(0,229,255,0.45);
+    --d-gs:   rgba(255,179,0,0.55);
   }
 
   html, body {
@@ -37,7 +45,6 @@
     position: relative;
   }
 
-  /* 背景グリッド */
   body::before {
     content: '';
     position: fixed;
@@ -51,7 +58,6 @@
     z-index: 0;
   }
 
-  /* ビネット */
   body::after {
     content: '';
     position: fixed;
@@ -81,22 +87,20 @@
     padding: 12px 16px;
     text-align: center;
   }
-
   .date-txt {
     font-size: 20px;
     font-weight: 700;
-    color: var(--cm);
-    text-shadow: 0 0 10px var(--gm);
+    color: var(--d-main);
+    text-shadow: 0 0 10px var(--d-gm);
     letter-spacing: 1px;
   }
-
   .week-txt {
     font-size: 13px;
     font-weight: 400;
-    color: var(--cs);
+    color: var(--d-sec);
     letter-spacing: 4px;
     margin-top: 5px;
-    text-shadow: 0 0 8px var(--gs);
+    text-shadow: 0 0 8px var(--d-gs);
   }
 
   /* アナログ時計 */
@@ -109,7 +113,6 @@
     display: flex;
     justify-content: center;
   }
-
   canvas#clk { display: block; }
 
   /* デジタル */
@@ -123,36 +126,32 @@
     align-items: baseline;
     justify-content: center;
   }
-
   .d-main {
     font-size: clamp(48px, 13vw, 64px);
     font-weight: 800;
     line-height: 1;
-    color: var(--cm);
-    text-shadow: 0 0 18px var(--gm), 0 0 50px rgba(0,229,255,0.15);
+    color: var(--d-main);
+    text-shadow: 0 0 18px var(--d-gm), 0 0 50px rgba(0,229,255,0.15);
   }
-
   .d-colon {
     font-size: clamp(48px, 13vw, 64px);
     font-weight: 800;
-    color: var(--cm);
-    text-shadow: 0 0 18px var(--gm);
+    color: var(--d-main);
+    text-shadow: 0 0 18px var(--d-gm);
     padding: 0 2px;
   }
-
-  .d-sec-sep {
+  .d-sep {
     font-size: clamp(48px, 13vw, 64px);
     font-weight: 800;
-    color: var(--cm);
-    text-shadow: 0 0 18px var(--gm);
+    color: var(--d-main);
+    text-shadow: 0 0 18px var(--d-gm);
     padding: 0 2px;
   }
-
   .d-sec {
     font-size: clamp(42px, 11vw, 56px);
     font-weight: 900;
-    color: var(--cs);
-    text-shadow: 0 0 12px var(--gs);
+    color: var(--d-sec);
+    text-shadow: 0 0 12px var(--d-gs);
   }
 
   /* 色設定パネル */
@@ -161,32 +160,33 @@
     background: var(--panel);
     border: 1px solid var(--bd);
     border-radius: 4px;
-    padding: 12px 14px;
+    padding: 14px 16px;
     display: none;
   }
-
   .cpanel.open { display: block; }
 
-  .cp-title {
+  .cp-section-title {
     font-size: 10px;
     letter-spacing: 3px;
     color: var(--sub);
     margin-bottom: 10px;
     text-align: center;
   }
-
+  .cp-divider {
+    border: none;
+    border-top: 1px solid var(--bd);
+    margin: 12px 0;
+  }
   .cp-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-
   .cp-item {
     display: flex;
     align-items: center;
     gap: 6px;
   }
-
   .cp-item label {
     font-size: 11px;
     color: rgba(0,229,255,0.6);
@@ -194,7 +194,6 @@
     flex: 1;
     white-space: nowrap;
   }
-
   .cp-item input[type="color"] {
     width: 34px;
     height: 26px;
@@ -223,18 +222,26 @@
   <!-- デジタル -->
   <div class="digital-box">
     <span class="d-main"><span id="dh">--</span><span class="d-colon">:</span><span id="dm">--</span></span>
-    <span class="d-sec-sep">:</span>
+    <span class="d-sep">:</span>
     <span class="d-sec" id="ds">00</span>
   </div>
 
   <!-- 色設定パネル（長押し1秒で開閉） -->
   <div class="cpanel" id="cpanel">
-    <div class="cp-title">COLOR SETTINGS</div>
+    <div class="cp-section-title">ANALOG</div>
     <div class="cp-grid">
-      <div class="cp-item"><label>時・分針</label><input type="color" id="c-hm" value="#00e5ff"></div>
-      <div class="cp-item"><label>秒針</label><input type="color" id="c-sp" value="#ffb300"></div>
-      <div class="cp-item"><label>日付</label><input type="color" id="c-dt" value="#00e5ff"></div>
-      <div class="cp-item"><label>曜日</label><input type="color" id="c-wk" value="#ffb300"></div>
+      <div class="cp-item"><label>時・分針</label><input type="color" id="a-hm" value="#00e5ff"></div>
+      <div class="cp-item"><label>秒針</label>   <input type="color" id="a-sp" value="#ffb300"></div>
+    </div>
+
+    <hr class="cp-divider">
+
+    <div class="cp-section-title">DIGITAL</div>
+    <div class="cp-grid">
+      <div class="cp-item"><label>時・分</label><input type="color" id="d-hm" value="#00e5ff"></div>
+      <div class="cp-item"><label>秒</label>   <input type="color" id="d-sp" value="#ffb300"></div>
+      <div class="cp-item"><label>日付</label> <input type="color" id="d-dt" value="#00e5ff"></div>
+      <div class="cp-item"><label>曜日</label> <input type="color" id="d-wk" value="#ffb300"></div>
     </div>
   </div>
 </div>
@@ -247,7 +254,14 @@ const canvas = document.getElementById('clk');
 const ctx = canvas.getContext('2d');
 const R = 128, CX = 140, CY = 140;
 
-let colorHM = '#00e5ff', colorSec = '#ffb300';
+const C = {
+  aHM:  '#00e5ff',
+  aSec: '#ffb300',
+  dHM:  '#00e5ff',
+  dSec: '#ffb300',
+  dDt:  '#00e5ff',
+  dWk:  '#ffb300',
+};
 
 function hexToRgba(h, a) {
   const r = parseInt(h.slice(1,3), 16);
@@ -256,27 +270,52 @@ function hexToRgba(h, a) {
   return `rgba(${r},${g},${b},${a})`;
 }
 
+function updateDigitalCSS() {
+  root.style.setProperty('--d-main', C.dHM);
+  root.style.setProperty('--d-gm',   hexToRgba(C.dHM, 0.45));
+  root.style.setProperty('--d-sec',  C.dSec);
+  root.style.setProperty('--d-gs',   hexToRgba(C.dSec, 0.55));
+}
+
+function drawHand(angle, length, width, color, alpha, blur) {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineCap = 'round';
+  ctx.globalAlpha = alpha;
+  ctx.shadowColor = hexToRgba(color, 0.6);
+  ctx.shadowBlur = blur;
+  ctx.beginPath();
+  ctx.moveTo(CX, CY);
+  ctx.lineTo(CX + length * Math.cos(angle), CY + length * Math.sin(angle));
+  ctx.stroke();
+  ctx.restore();
+}
+
 function drawClock() {
   const now = new Date();
   const H = now.getHours(), M = now.getMinutes(), S = now.getSeconds(), ms = now.getMilliseconds();
   const secF = S + ms / 1000;
   const minF = M + secF / 60;
-  const hrF = H % 12 + minF / 60;
+  const hrF  = H % 12 + minF / 60;
 
   ctx.clearRect(0, 0, 280, 280);
 
+  const cHM  = C.aHM;
+  const cSec = C.aSec;
+
   // 外枠グロー
   ctx.save();
-  ctx.shadowColor = hexToRgba(colorHM, 0.3);
+  ctx.shadowColor = hexToRgba(cHM, 0.3);
   ctx.shadowBlur = 18;
-  ctx.strokeStyle = colorHM;
+  ctx.strokeStyle = cHM;
   ctx.lineWidth = 1.5;
   ctx.globalAlpha = 0.5;
   ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.stroke();
   ctx.restore();
 
   // 外枠
-  ctx.strokeStyle = hexToRgba(colorHM, 0.35);
+  ctx.strokeStyle = hexToRgba(cHM, 0.35);
   ctx.lineWidth = 1;
   ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.stroke();
 
@@ -287,9 +326,9 @@ function drawClock() {
     const outer = R - 2;
     const inner = isHour ? R - 14 : R - 7;
     ctx.save();
-    ctx.strokeStyle = isHour ? hexToRgba(colorHM, 0.9) : hexToRgba(colorHM, 0.35);
+    ctx.strokeStyle = isHour ? hexToRgba(cHM, 0.9) : hexToRgba(cHM, 0.35);
     ctx.lineWidth = isHour ? 2.5 : 0.8;
-    if (isHour) { ctx.shadowColor = hexToRgba(colorHM, 0.6); ctx.shadowBlur = 6; }
+    if (isHour) { ctx.shadowColor = hexToRgba(cHM, 0.6); ctx.shadowBlur = 6; }
     ctx.beginPath();
     ctx.moveTo(CX + outer * Math.cos(a), CY + outer * Math.sin(a));
     ctx.lineTo(CX + inner * Math.cos(a), CY + inner * Math.sin(a));
@@ -305,92 +344,69 @@ function drawClock() {
   [[12,0],[3,3],[6,6],[9,9]].forEach(([num, i]) => {
     const a = i * Math.PI * 2 / 12 - Math.PI / 2;
     const rd = R - 28;
-    ctx.fillStyle = hexToRgba(colorHM, 0.85);
-    ctx.shadowColor = hexToRgba(colorHM, 0.5);
+    ctx.fillStyle = hexToRgba(cHM, 0.85);
+    ctx.shadowColor = hexToRgba(cHM, 0.5);
     ctx.shadowBlur = 6;
     ctx.fillText(String(num), CX + rd * Math.cos(a), CY + rd * Math.sin(a));
   });
   ctx.restore();
 
-  // 時針
-  drawHand(hrF / 12 * Math.PI * 2 - Math.PI / 2, R * 0.56, 8, colorHM, 0.95, 12);
-  // 分針
-  drawHand(minF / 60 * Math.PI * 2 - Math.PI / 2, R * 0.80, 5, colorHM, 0.90, 8);
+  // 時針・分針
+  drawHand(hrF / 12 * Math.PI * 2 - Math.PI / 2, R * 0.56, 8, cHM, 0.95, 12);
+  drawHand(minF / 60 * Math.PI * 2 - Math.PI / 2, R * 0.80, 5, cHM, 0.90, 8);
 
   // 秒針
   const secA = secF / 60 * Math.PI * 2 - Math.PI / 2;
   const nearZero = Math.min(secF, 60 - secF);
   const glow = nearZero < 3 ? 1 - (nearZero / 3) * 0.5 : 0.3;
   ctx.save();
-  ctx.strokeStyle = colorSec;
+  ctx.strokeStyle = cSec;
   ctx.lineWidth = 1.5;
   ctx.lineCap = 'round';
-  ctx.shadowColor = hexToRgba(colorSec, 0.8);
+  ctx.shadowColor = hexToRgba(cSec, 0.8);
   ctx.shadowBlur = 10;
-  const tail = R * 0.2;
   ctx.beginPath();
-  ctx.moveTo(CX - tail * Math.cos(secA), CY - tail * Math.sin(secA));
-  ctx.lineTo(CX + (R * 0.88) * Math.cos(secA), CY + (R * 0.88) * Math.sin(secA));
+  ctx.moveTo(CX - R * 0.2 * Math.cos(secA), CY - R * 0.2 * Math.sin(secA));
+  ctx.lineTo(CX + R * 0.88 * Math.cos(secA), CY + R * 0.88 * Math.sin(secA));
   ctx.stroke();
   ctx.shadowBlur = 20 * glow + 8;
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(CX + (R * 0.75) * Math.cos(secA), CY + (R * 0.75) * Math.sin(secA));
-  ctx.lineTo(CX + (R * 0.95) * Math.cos(secA), CY + (R * 0.95) * Math.sin(secA));
+  ctx.moveTo(CX + R * 0.75 * Math.cos(secA), CY + R * 0.75 * Math.sin(secA));
+  ctx.lineTo(CX + R * 0.95 * Math.cos(secA), CY + R * 0.95 * Math.sin(secA));
   ctx.stroke();
   ctx.restore();
 
   // 中央ドット
   ctx.save();
-  ctx.fillStyle = colorSec;
-  ctx.shadowColor = hexToRgba(colorSec, 0.8);
+  ctx.fillStyle = cSec;
+  ctx.shadowColor = hexToRgba(cSec, 0.8);
   ctx.shadowBlur = 8;
   ctx.beginPath(); ctx.arc(CX, CY, 4, 0, Math.PI * 2); ctx.fill();
   ctx.restore();
 
   // デジタル更新
-  document.getElementById('dateD').textContent = `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`;
-  document.getElementById('weekD').textContent = `${DAYS[now.getDay()]}曜日`;
-  document.getElementById('dh').textContent = pad(H);
-  document.getElementById('dm').textContent = pad(M);
-  document.getElementById('ds').textContent = pad(S);
-}
-
-function drawHand(angle, length, width, color, alpha, tipBlur) {
-  ctx.save();
-  ctx.strokeStyle = color;
-  ctx.lineWidth = width;
-  ctx.lineCap = 'round';
-  ctx.globalAlpha = alpha;
-  ctx.shadowColor = hexToRgba(color, 0.6);
-  ctx.shadowBlur = tipBlur;
-  ctx.beginPath();
-  ctx.moveTo(CX, CY);
-  ctx.lineTo(CX + length * Math.cos(angle), CY + length * Math.sin(angle));
-  ctx.stroke();
-  ctx.restore();
+  document.getElementById('dateD').textContent      = `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`;
+  document.getElementById('weekD').textContent      = `${DAYS[now.getDay()]}曜日`;
+  document.getElementById('dh').textContent         = pad(H);
+  document.getElementById('dm').textContent         = pad(M);
+  document.getElementById('ds').textContent         = pad(S);
+  document.getElementById('dateD').style.color      = C.dDt;
+  document.getElementById('dateD').style.textShadow = `0 0 10px ${hexToRgba(C.dDt, 0.45)}`;
+  document.getElementById('weekD').style.color      = C.dWk;
+  document.getElementById('weekD').style.textShadow = `0 0 8px ${hexToRgba(C.dWk, 0.55)}`;
 }
 
 function loop() { drawClock(); requestAnimationFrame(loop); }
 loop();
 
-// 色変更
-document.getElementById('c-hm').addEventListener('input', e => {
-  colorHM = e.target.value;
-  root.style.setProperty('--cm', e.target.value);
-  root.style.setProperty('--gm', hexToRgba(e.target.value, 0.45));
-});
-document.getElementById('c-sp').addEventListener('input', e => {
-  colorSec = e.target.value;
-  root.style.setProperty('--cs', e.target.value);
-  root.style.setProperty('--gs', hexToRgba(e.target.value, 0.55));
-});
-document.getElementById('c-dt').addEventListener('input', e => {
-  root.style.setProperty('--cm', e.target.value);
-});
-document.getElementById('c-wk').addEventListener('input', e => {
-  root.style.setProperty('--cs', e.target.value);
-});
+// 色変更イベント
+document.getElementById('a-hm').addEventListener('input', e => { C.aHM  = e.target.value; });
+document.getElementById('a-sp').addEventListener('input', e => { C.aSec = e.target.value; });
+document.getElementById('d-hm').addEventListener('input', e => { C.dHM  = e.target.value; updateDigitalCSS(); });
+document.getElementById('d-sp').addEventListener('input', e => { C.dSec = e.target.value; updateDigitalCSS(); });
+document.getElementById('d-dt').addEventListener('input', e => { C.dDt  = e.target.value; });
+document.getElementById('d-wk').addEventListener('input', e => { C.dWk  = e.target.value; });
 
 // スクリーンスリープ防止
 if ('wakeLock' in navigator) {
@@ -400,13 +416,18 @@ if ('wakeLock' in navigator) {
 // 長押し1秒で色設定パネル開閉
 const cpanel = document.getElementById('cpanel');
 let holdT = null;
-function startHold() { holdT = setTimeout(() => { cpanel.classList.toggle('open'); if (navigator.vibrate) navigator.vibrate(40); }, 1000); }
+function startHold() {
+  holdT = setTimeout(() => {
+    cpanel.classList.toggle('open');
+    if (navigator.vibrate) navigator.vibrate(40);
+  }, 1000);
+}
 function cancelHold() { clearTimeout(holdT); }
 document.addEventListener('touchstart', startHold, { passive: true });
-document.addEventListener('touchend', cancelHold);
-document.addEventListener('touchmove', cancelHold);
-document.addEventListener('mousedown', startHold);
-document.addEventListener('mouseup', cancelHold);
+document.addEventListener('touchend',   cancelHold);
+document.addEventListener('touchmove',  cancelHold);
+document.addEventListener('mousedown',  startHold);
+document.addEventListener('mouseup',    cancelHold);
 </script>
 </body>
 </html>
